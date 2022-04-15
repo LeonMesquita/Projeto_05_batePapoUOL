@@ -6,7 +6,6 @@ function enterUser(){
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", newUser);
     promise.then(function(response){
         currentUser = name
-        usersList.push(name)
         getMessages()
     });
 
@@ -15,13 +14,13 @@ function enterUser(){
 
 }
 
-enterUser()
+
 
 
 
 function getMessages(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
-    console.log("opa")
+    console.log("atualiado")
     promise.then(function(response){
         addMessage(response);
     })
@@ -32,7 +31,6 @@ function getMessages(){
 function addMessage(message){
     let messagesList = document.querySelector(".messages")
     messagesList.innerHTML = ""
-      console.log(message.data)
     for (let count = 0; count < message.data.length; count++){
         if (message.data[count].type === "message"){
             messagesList.innerHTML += `
@@ -73,9 +71,13 @@ function sendMessage(){
     }
     
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", newMessage);
-    promise.then(function(response){
-        getMessages(response);
-        //document.querySelector("input").value = ""
+    promise.then(function(){
+        getMessages();
     });
 }
 
+        //document.querySelector("input").value = ""
+
+
+enterUser()
+let idInterval = setInterval(getMessages, 3000)
