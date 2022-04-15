@@ -4,14 +4,12 @@ function enterUser(){
     let name = prompt("Qual seu nome de usuário?")
     const newUser = {name: name.toString()}
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", newUser);
-    promise.then(function(response){
-        currentUser = name
+    promise.then(
+    currentUser = name,
         getMessages()
-    });
 
+    )
     promise.catch(treatError)
-
-
 }
 
 
@@ -30,23 +28,29 @@ function getMessages(){
 
 function addMessage(message){
     let messagesList = document.querySelector(".messages")
+    let scrollMessage
     messagesList.innerHTML = ""
+    messagesList.scrollIntoView();
     for (let count = 0; count < message.data.length; count++){
         if (message.data[count].type === "message"){
             messagesList.innerHTML += `
-            <div class="message-div normal-message">
+            <div class="message-div normal-message" id="${count}">
             <h3>(${message.data[count].time})</h3>
-            <span><b>${message.data[count].from}</b> para Todos: ${message.data[count].text}</span>
+            <span><b>${message.data[count].from}</b> para ${message.data[count].to}: ${message.data[count].text}</span>
             </div>
-            ` 
+            `
+            scrollMessage = document.getElementById(count).scrollIntoView();
+
         }
         else if (message.data[count].type === "status"){
             messagesList.innerHTML += `
-            <div class="message-div status">
+            <div class="message-div status" id="${count}">
             <h3>(${message.data[count].time})</h3>
-            <span><b>${message.data[count].from}</b> para Todos: ${message.data[count].text}</span>
+            <span><b>${message.data[count].from}</b> para ${message.data[count].to}: ${message.data[count].text}</span>
             </div>
             ` 
+            scrollMessage = document.getElementById(count).scrollIntoView();
+
         }
     }
 
@@ -65,19 +69,36 @@ function sendMessage(){
     const message = document.querySelector("input").value
     const newMessage = {
         from: currentUser,
-        to: "Fulano",
+        to: "Todos",
         text: message,
         type: "message"
     }
     
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", newMessage);
     promise.then(function(){
+        document.querySelector("input").value = ""
         getMessages();
     });
+
+    promise.catch(function(){
+        window.location.reload()
+    })
 }
 
-        //document.querySelector("input").value = ""
+
+function keepConnection(){
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {name: currentUser})
+    promise.then(function(){
+        console.log("checkado, usuário on")
+    })
+
+    promise.catch(function(){
+        window.location.reload()
+    })
+}
+
 
 
 enterUser()
-let idInterval = setInterval(getMessages, 3000)
+let idMessagesInterval = setInterval(getMessages, 3000)
+let idConnectionInterval = setInterval(keepConnection, 5000)

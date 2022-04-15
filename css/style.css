@@ -13,7 +13,7 @@ background-color: #E5E5E5;
 
 .main-container {
     width: 375px;
-    
+    position: relative;
     background-color: #F3F3F3;
     margin: auto;
 }
@@ -24,6 +24,9 @@ background-color: #E5E5E5;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 26px;
+    position: fixed;
+    top: 0;
+    width: 375px;
 
 }
 
@@ -43,7 +46,8 @@ background-color: #E5E5E5;
 
 
 .messages {
-    margin-bottom: 84px;
+    margin-top: 110px;
+    margin-bottom: 80px;
 
 }
 
@@ -53,6 +57,12 @@ background-color: #E5E5E5;
     justify-content: start;
     height: 40px;
     margin-bottom: 4px;
+    
+
+}
+
+.message-div:first-child{
+    margin-top: 110px;
 
 }
 
@@ -60,18 +70,22 @@ background-color: #E5E5E5;
     color: #AAAAAA;
     margin-left: 8px;
     margin-right: 8px;
+    overflow:hidden;
 }
 
 .status {
     background-color: #DCDCDC;
+    overflow:hidden;
 }
 
 .normal-message {
     background-color: white;
+    overflow:hidden;
 }
 
 .privately-message {
     background-color: #FFDEDE;
+    overflow:hidden;
 }
 
 .type-box {
@@ -113,4 +127,9 @@ input:focus{
 
 .type-box button:hover{
     background-color: #DCDCDC;
+}
+
+
+.side-menu {
+
 }
