@@ -8,10 +8,13 @@ b {
 
 body {
 
-background-color: #E5E5E5;
+background-color: #F3F3F3;
 }
 
 .main-container {
+    height: 100vh;
+    z-index: 0;
+
     width: 375px;
     position: relative;
     background-color: #F3F3F3;
@@ -23,19 +26,21 @@ background-color: #E5E5E5;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 26px;
     position: fixed;
     top: 0;
     width: 375px;
+    height: 70px;
 
 }
 
 .logo {
     width: 75px;
     height: 53px;
-    margin-top: 16px;
+   
+    
     margin-left: 22px;
-    margin-bottom: 16px;
+
+    
 
 }
 
@@ -44,10 +49,15 @@ background-color: #E5E5E5;
     margin-right: 22px;
 }
 
+.icon:hover{
+    cursor: pointer;
+}
+
 
 .messages {
     margin-top: 110px;
-    margin-bottom: 80px;
+    padding-bottom: 81px;
+
 
 }
 
@@ -58,11 +68,6 @@ background-color: #E5E5E5;
     height: 40px;
     margin-bottom: 4px;
     
-
-}
-
-.message-div:first-child{
-    margin-top: 110px;
 
 }
 
@@ -96,7 +101,7 @@ background-color: #E5E5E5;
    position: fixed;
    bottom: 0;
     bottom: 0;
-    height: 80px;
+    height: 70px;
     width: 375px;
    
 }
@@ -131,5 +136,84 @@ input:focus{
 
 
 .side-menu {
+    height: 100%;
+    width: 375px;
+    position: fixed;
+    top: 0;
+
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+    display: flex;
 
 }
+
+.inside-menu {
+    width: 60%;
+    height: 100%;
+
+    position: relative;
+    background-color: white;
+
+
+    
+}
+
+.inside-menu h1 {
+    font-weight: bold;
+    font-size: 17px;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 15px;
+    margin-bottom: 30px;
+}
+
+.contacts-div, .visibility-div{
+    display: flex;
+    align-items: center;
+    height: 45px;
+    font-size: 16px;
+
+}
+.contacts-div img, .visibility-div img{
+    width: 25px;
+    margin-left: 17px;
+    margin-right: 8px;
+}
+
+.contacts-div:hover, .visibility-div:hover {
+    cursor: pointer;
+    background-color: #DCDCDC;
+
+}
+
+.off-menu{
+    width: 40%;
+    position: relative;
+}
+
+
+.hidden {
+   display: none;
+}
+
+
+
+.teste {
+    display: flex;
+}
+
+
+/*
+
+    height: 100vh;
+    width: 300px;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    top: 0;
+    margin: auto;
+z-index: 1;
+display: flex;
+justify-content: center;
+align-items: center;
+*/

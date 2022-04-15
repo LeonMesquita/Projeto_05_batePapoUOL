@@ -99,6 +99,13 @@ function keepConnection(){
 
 
 
+function changeSideMenu(){
+    let menuElement = document.querySelector(".side-menu").classList.toggle("hidden")
+}
+
+
+
+
 enterUser()
 let idMessagesInterval = setInterval(getMessages, 3000)
 let idConnectionInterval = setInterval(keepConnection, 5000)
