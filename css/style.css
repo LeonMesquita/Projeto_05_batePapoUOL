@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+}
+
+b {
+    font-weight: bold;
+}
+
+body {
+
+background-color: #E5E5E5;
+}
+
+.main-container {
+    width: 375px;
+    
+    background-color: #F3F3F3;
+    margin: auto;
+}
+
+.top-bar {
+    background-color: #FFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+
+}
+
+.logo {
+    width: 75px;
+    height: 53px;
+    margin-top: 16px;
+    margin-left: 22px;
+    margin-bottom: 16px;
+
+}
+
+.icon{
+    width: 50px;
+    margin-right: 22px;
+}
+
+
+.messages {
+    margin-bottom: 84px;
+
+}
+
+.message-div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 40px;
+    margin-bottom: 4px;
+
+}
+
+.message-div h3 {
+    color: #AAAAAA;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.status {
+    background-color: #DCDCDC;
+}
+
+.normal-message {
+    background-color: white;
+}
+
+.privately-message {
+    background-color: #FFDEDE;
+}
+
+.type-box {
+    background-color: #FFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+   position: fixed;
+   bottom: 0;
+    bottom: 0;
+    height: 80px;
+    width: 375px;
+   
+}
+
+.type-box input {
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 18px;
+    color: black;
+}
+
+input:focus{
+    box-shadow: 0 0 0 0;
+    outline: 0;
+}
+
+.type-box button {
+    height: 100%;
+    width: 20%;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+
+    margin-left: 10px;
+    
+}
+
+.type-box button:hover{
+    background-color: #DCDCDC;
+}
