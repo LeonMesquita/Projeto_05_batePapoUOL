@@ -1,4 +1,5 @@
 let currentUser
+let listOfUsers = []
 
 function enterUser(){
     let name = prompt("Qual seu nome de usuário?")
@@ -6,7 +7,8 @@ function enterUser(){
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", newUser);
     promise.then(
     currentUser = name,
-        getMessages()
+        getMessages(),
+        getUsers()
 
     )
     promise.catch(treatError)
@@ -14,13 +16,22 @@ function enterUser(){
 
 
 
+function getUsers(){
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
+    promise.then(function(response){
+        listOfUsers = response
+        console.log(listOfUsers.data)
+    })
+
+}
 
 
 function getMessages(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
-    console.log("atualiado")
+   // console.log("atualiado")
     promise.then(function(response){
         addMessage(response);
+
     })
 
 }
@@ -30,7 +41,8 @@ function addMessage(message){
     let messagesList = document.querySelector(".messages")
     let scrollMessage
     messagesList.innerHTML = ""
-    messagesList.scrollIntoView();
+
+
     for (let count = 0; count < message.data.length; count++){
         if (message.data[count].type === "message"){
             messagesList.innerHTML += `
@@ -89,7 +101,7 @@ function sendMessage(){
 function keepConnection(){
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {name: currentUser})
     promise.then(function(){
-        console.log("checkado, usuário on")
+       // console.log("checkado, usuário on")
     })
 
     promise.catch(function(){
@@ -101,6 +113,7 @@ function keepConnection(){
 
 function changeSideMenu(){
     let menuElement = document.querySelector(".side-menu").classList.toggle("hidden")
+    let promise = axios.get()
 }
 
 
@@ -109,3 +122,4 @@ function changeSideMenu(){
 enterUser()
 let idMessagesInterval = setInterval(getMessages, 3000)
 let idConnectionInterval = setInterval(keepConnection, 5000)
+let idUsersInterval = setInterval(getUsers, 1000*10)
