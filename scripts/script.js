@@ -12,7 +12,10 @@ function enterUser(){
         currentUser = name,
         getMessages(),
         getUsers(),
-        document.querySelector(".login-screen").classList.toggle("hidden")
+        document.querySelector(".login-screen").classList.toggle("hidden"),
+        setInterval(getMessages, 3000),
+        setInterval(keepConnection, 5000),
+        setInterval(getUsers, 1000*10),
     )
    promise.catch(treatError)
 }
@@ -23,6 +26,8 @@ function getUsers(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
     promise.then(function(response){
         listOfUsers = response
+        console.log("pegou os usuarios")
+
     })
 
 }
@@ -31,6 +36,7 @@ function getUsers(){
 function getMessages(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
     promise.then(function(response){
+        console.log("pegou as mensagens")
         addMessage(response);
 
     })
@@ -42,6 +48,7 @@ function addMessage(message){
     let messagesList = document.querySelector(".messages")
     let scrollMessage
     let messageClass
+    let res = ""
     messagesList.innerHTML = ""
 
 
@@ -51,17 +58,16 @@ function addMessage(message){
         }
         else if (message.data[count].type === "status")
             messageClass = `class="message-div status" id="${count}"`;
-           else if (message.data[count].type === "private_message")
-           {
+        else if (message.data[count].type === "private_message"){
             messageClass = `class="message-div privately-message" id="${count}"`;
-
-           }
+            res = "reservadamente"
+        }
 
 
         messagesList.innerHTML += `
         <div ${messageClass}>
         <h3>(${message.data[count].time})</h3>
-        <span><b>${message.data[count].from}</b> para ${message.data[count].to}: ${message.data[count].text}</span>
+        <span><b>${message.data[count].from}</b> ${res} para ${message.data[count].to}: ${message.data[count].text}</span>
         </div>
         `
         scrollMessage = document.getElementById(count).scrollIntoView();
@@ -89,7 +95,8 @@ function sendMessage(){
     promise.then(function(){
         document.querySelector("input").value = ""
         document.querySelector(".type-box div").innerHTML = `
-            <input type="text" placeholder=" Escreva aqui..."> `
+        <input type="text" placeholder=" Escreva aqui..." onkeydown="keyCode(event)">
+        `
         messageDestination = "Todos"
         messageType = "message"
         getMessages();
@@ -104,6 +111,8 @@ function sendMessage(){
 function keepConnection(){
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {name: currentUser})
     promise.then(function(){
+        console.log("usuario on")
+
     })
 
     promise.catch(function(){
@@ -146,7 +155,7 @@ function changeTypeBox(){
     let inputElement = document.querySelector(".type-box div")
     inputElement.innerHTML = ""
     inputElement.innerHTML += `
-        <input type="text" placeholder=" Escreva aqui...">
+    <input type="text" placeholder=" Escreva aqui..." onkeydown="keyCode(event)">
         <span>Enviando para ${messageDestination} (${messageVisibility})</span>  
     `
 }
@@ -193,8 +202,9 @@ function selectVisibility(visibility){
 }
 
 
+function keyCode(event){
+    if (event.keyCode == 13){
+        document.querySelector(".type-box button").click();
+    }
+}
 
-
-let idMessagesInterval = setInterval(getMessages, 3000);
-let idConnectionInterval = setInterval(keepConnection, 5000);
-let idUsersInterval = setInterval(getUsers, 1000*10);
