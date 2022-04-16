@@ -5,15 +5,16 @@ let messageDestination = "Todos"
 let messageVisibility = "público"
 
 function enterUser(){
-    let name = prompt("Qual seu nome de usuário?")
+    let name = document.querySelector(".login-screen input").value
     const newUser = {name: name.toString()}
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", newUser);
     promise.then(
-    currentUser = name,
+        currentUser = name,
         getMessages(),
-        getUsers()
+        getUsers(),
+        document.querySelector(".login-screen").classList.toggle("hidden")
     )
-    promise.catch(treatError)
+   promise.catch(treatError)
 }
 
 
@@ -76,7 +77,7 @@ function treatError(error){
 
 
 function sendMessage(){
-    const message = document.querySelector("input").value
+    const message = document.querySelector(".type-box input").value
     const newMessage = {
         from: currentUser,
         to: messageDestination,
@@ -178,7 +179,7 @@ function selectVisibility(visibility){
    visibility.querySelector(".check-icon").classList.toggle("hidden");
    visibility.classList.add("selected")
 
-   if( visibility.querySelector("h2").innerHTML === "Público"){
+   if( visibility.querySelector("h2").innerHTML === "Público" || messageDestination === "Todos"){
         messageType = "message"
         messageVisibility = "público"
    }
@@ -194,7 +195,7 @@ function selectVisibility(visibility){
 
 
 
-enterUser()
-let idMessagesInterval = setInterval(getMessages, 3000);
-let idConnectionInterval = setInterval(keepConnection, 5000);
-let idUsersInterval = setInterval(getUsers, 1000*10);
+//enterUser()
+//let idMessagesInterval = setInterval(getMessages, 3000);
+//let idConnectionInterval = setInterval(keepConnection, 5000);
+//let idUsersInterval = setInterval(getUsers, 1000*10);
