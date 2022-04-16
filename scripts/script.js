@@ -1,5 +1,7 @@
 let currentUser
 let listOfUsers = []
+let messageType = "message"
+let messageDestination = "Todos"
 
 function enterUser(){
     let name = prompt("Qual seu nome de usuário?")
@@ -9,7 +11,6 @@ function enterUser(){
     currentUser = name,
         getMessages(),
         getUsers()
-
     )
     promise.catch(treatError)
 }
@@ -20,7 +21,6 @@ function getUsers(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
     promise.then(function(response){
         listOfUsers = response
-        console.log(listOfUsers.data)
     })
 
 }
@@ -28,7 +28,6 @@ function getUsers(){
 
 function getMessages(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
-   // console.log("atualiado")
     promise.then(function(response){
         addMessage(response);
 
@@ -40,33 +39,27 @@ function getMessages(){
 function addMessage(message){
     let messagesList = document.querySelector(".messages")
     let scrollMessage
+    let messageClass
     messagesList.innerHTML = ""
 
 
     for (let count = 0; count < message.data.length; count++){
-        if (message.data[count].type === "message"){
-            messagesList.innerHTML += `
-            <div class="message-div normal-message" id="${count}">
-            <h3>(${message.data[count].time})</h3>
-            <span><b>${message.data[count].from}</b> para ${message.data[count].to}: ${message.data[count].text}</span>
-            </div>
-            `
-            scrollMessage = document.getElementById(count).scrollIntoView();
+        if (message.data[count].type === "message")
+            messageClass = `class="message-div normal-message" id="${count}"`;
+        else if (message.data[count].type === "status")
+            messageClass = `class="message-div status" id="${count}"`;
+           else if (message.data[count].type === "private_message")
+            messageClass = `class="message-div privately-message" id="${count}"`;
 
-        }
-        else if (message.data[count].type === "status"){
-            messagesList.innerHTML += `
-            <div class="message-div status" id="${count}">
-            <h3>(${message.data[count].time})</h3>
-            <span><b>${message.data[count].from}</b> para ${message.data[count].to}: ${message.data[count].text}</span>
-            </div>
-            ` 
-            scrollMessage = document.getElementById(count).scrollIntoView();
 
-        }
-    }
-
-        
+        messagesList.innerHTML += `
+        <div ${messageClass}>
+        <h3>(${message.data[count].time})</h3>
+        <span><b>${message.data[count].from}</b> para ${message.data[count].to}: ${message.data[count].text}</span>
+        </div>
+        `
+        scrollMessage = document.getElementById(count).scrollIntoView();
+    }     
 }
 
 function treatError(error){
@@ -81,14 +74,16 @@ function sendMessage(){
     const message = document.querySelector("input").value
     const newMessage = {
         from: currentUser,
-        to: "Todos",
+        to: messageDestination,
         text: message,
-        type: "message"
+        type: messageType
     }
     
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", newMessage);
     promise.then(function(){
         document.querySelector("input").value = ""
+        messageDestination = "Todos"
+        messageType = "message"
         getMessages();
     });
 
@@ -101,7 +96,6 @@ function sendMessage(){
 function keepConnection(){
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", {name: currentUser})
     promise.then(function(){
-       // console.log("checkado, usuário on")
     })
 
     promise.catch(function(){
@@ -112,14 +106,67 @@ function keepConnection(){
 
 
 function changeSideMenu(){
-    let menuElement = document.querySelector(".side-menu").classList.toggle("hidden")
-    let promise = axios.get()
+    let contactsElement = document.querySelector(".contact");
+    contactsElement.innerHTML = `
+    <div class="contacts-div" onclick="selectContact(this)">
+    <div>
+        <img src="images/people-outline.svg"/>
+        <h2>Todos</h2>
+    </div>
+    <img src="images/check.svg" class="check-icon hidden" />
+
+   </div>
+    `
+        for (let count = 0; count < listOfUsers.data.length; count++){
+        contactsElement.innerHTML += `
+        <div class="contacts-div" onclick="selectContact(this)">
+        <div>
+            <img src="images/profile.svg"/>
+            <h2>${listOfUsers.data[count].name}</h2>
+        </div>
+        <img src="images/check.svg" class="check-icon hidden" />
+
+       </div>
+        `
+    }
+    document.querySelector(".side-menu").classList.toggle("hidden");
+
+
+}
+
+function selectContact(contact){
+    let selectedContact = contact.parentNode.querySelector(".selected")
+   if (selectedContact !== null){
+        selectedContact.classList.remove("selected")
+        selectedContact.querySelector(".check-icon").classList.toggle("hidden");
+   }
+
+    contact.querySelector(".check-icon").classList.toggle("hidden");
+    contact.classList.add("selected")
+
+
+    messageDestination = contact.querySelector("h2").innerHTML
+}
+
+function selectVisibility(visibility){
+
+    let selectedVisibility = visibility.parentNode.querySelector(".selected")
+   if (selectedVisibility !== null){
+    selectedVisibility.classList.remove("selected")
+    selectedVisibility.querySelector(".check-icon").classList.toggle("hidden");
+   }
+
+
+   visibility.querySelector(".check-icon").classList.toggle("hidden");
+   visibility.classList.add("selected")
+
+   visibility.querySelector("h2").innerHTML === "Público" ? messageType = "message" : messageType = "private_message"
 }
 
 
 
 
 enterUser()
-let idMessagesInterval = setInterval(getMessages, 3000)
-let idConnectionInterval = setInterval(keepConnection, 5000)
-let idUsersInterval = setInterval(getUsers, 1000*10)
+let idMessagesInterval = setInterval(getMessages, 3000);
+let idConnectionInterval = setInterval(keepConnection, 5000);
+let idUsersInterval = setInterval(getUsers, 1000*10);

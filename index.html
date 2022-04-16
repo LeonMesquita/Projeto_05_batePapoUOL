@@ -15,25 +15,36 @@
             <div class="off-menu"  onclick="changeSideMenu()"></div>
             <div class="inside-menu">
                 <div><h1>Escolha um contato para mandar mensagem:</h1></div>
-                <div class="contacts-div"><img src="images/people-outline.svg"/>
-                    <h2>Todos</h2>
+
+                <div class="contact"> 
                 </div>
-                <div class="contacts-div"><img src="images/profile.svg"/>
-                    <h2>Todos</h2>
-                </div>
-                <div class="contacts-div"><img src="images/profile.svg"/>
-                    <h2>Todos</h2>
-                </div>
+
 
 
                 <div><h1>Escolha a visibilidade:</h1></div>
+                <div>
+
+                    <div class="visibility-div" onclick="selectVisibility(this)">
+                    <div>
+                        <img src="images/open-lock.svg"/>
+                        <h2>Público</h2>
+                    </div>
+                    <img src="images/check.svg" class="check-icon hidden" />
+
+                 
+                </div>
+                <div class="visibility-div" onclick="selectVisibility(this)">
+                    <div>
+                        <img src="images/lock.svg"/>
+                        <h2>Reservadamente</h2>
+                    </div>
+                    <img src="images/check.svg" class="check-icon hidden" />
+
+                 
+                </div>
+                </div>
             
-                <div class="visibility-div"><img src="images/open-lock.svg"/>
-                    <h2>Público</h2>
-                </div>
-                <div class="visibility-div"><img src="images/lock.svg"/>
-                    <h2>Reservadamente</h2>
-                </div>
+
 
             </div>
         </div>
@@ -48,11 +59,7 @@
             </div>
 
             <div class="messages">
-                <div class="message-div privately-message">
-                    <h3>(09:21:45)</h3>
-                    <span><b>João</b> reservadamente para Maria: Oi gatinha quer tc?</span>
-                </div>
-
+         
             </div>
 
 

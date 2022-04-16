@@ -65,8 +65,9 @@ background-color: #F3F3F3;
     display: flex;
     align-items: center;
     justify-content: start;
-    height: 40px;
     margin-bottom: 4px;
+    padding-top: 7px;
+    padding-bottom: 10px;
     
 
 }
@@ -75,22 +76,24 @@ background-color: #F3F3F3;
     color: #AAAAAA;
     margin-left: 8px;
     margin-right: 8px;
-    overflow:hidden;
+    word-break: keep-all;
 }
 
 .status {
     background-color: #DCDCDC;
-    overflow:hidden;
+    word-break: break-all;
+
 }
 
 .normal-message {
     background-color: white;
-    overflow:hidden;
+    word-break: break-all;
 }
 
 .privately-message {
     background-color: #FFDEDE;
-    overflow:hidden;
+    word-break: break-all;
+
 }
 
 .type-box {
@@ -167,11 +170,18 @@ input:focus{
     margin-bottom: 30px;
 }
 
+
+.contact {
+    height: 150px;
+    overflow-y:scroll;
+}
+
 .contacts-div, .visibility-div{
     display: flex;
     align-items: center;
     height: 45px;
     font-size: 16px;
+    justify-content: space-between;
 
 }
 .contacts-div img, .visibility-div img{
@@ -180,9 +190,20 @@ input:focus{
     margin-right: 8px;
 }
 
+.contacts-div div, .visibility-div div {
+    display: flex;
+    align-items: center;
+}
+
 .contacts-div:hover, .visibility-div:hover {
     cursor: pointer;
     background-color: #DCDCDC;
+
+}
+
+.check-icon {
+    width: 10px;
+    height: 10px;
 
 }
 
