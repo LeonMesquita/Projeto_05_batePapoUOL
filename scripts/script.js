@@ -2,6 +2,7 @@ let currentUser
 let listOfUsers = []
 let messageType = "message"
 let messageDestination = "Todos"
+let messageVisibility = "público"
 
 function enterUser(){
     let name = prompt("Qual seu nome de usuário?")
@@ -44,12 +45,16 @@ function addMessage(message){
 
 
     for (let count = 0; count < message.data.length; count++){
-        if (message.data[count].type === "message")
+        if (message.data[count].type === "message"){
             messageClass = `class="message-div normal-message" id="${count}"`;
+        }
         else if (message.data[count].type === "status")
             messageClass = `class="message-div status" id="${count}"`;
            else if (message.data[count].type === "private_message")
+           {
             messageClass = `class="message-div privately-message" id="${count}"`;
+
+           }
 
 
         messagesList.innerHTML += `
@@ -82,6 +87,8 @@ function sendMessage(){
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", newMessage);
     promise.then(function(){
         document.querySelector("input").value = ""
+        document.querySelector(".type-box div").innerHTML = `
+            <input type="text" placeholder=" Escreva aqui..."> `
         messageDestination = "Todos"
         messageType = "message"
         getMessages();
@@ -134,6 +141,15 @@ function changeSideMenu(){
 
 }
 
+function changeTypeBox(){
+    let inputElement = document.querySelector(".type-box div")
+    inputElement.innerHTML = ""
+    inputElement.innerHTML += `
+        <input type="text" placeholder=" Escreva aqui...">
+        <span>Enviando para ${messageDestination} (${messageVisibility})</span>  
+    `
+}
+
 function selectContact(contact){
     let selectedContact = contact.parentNode.querySelector(".selected")
    if (selectedContact !== null){
@@ -146,6 +162,8 @@ function selectContact(contact){
 
 
     messageDestination = contact.querySelector("h2").innerHTML
+
+    changeTypeBox()
 }
 
 function selectVisibility(visibility){
@@ -160,7 +178,17 @@ function selectVisibility(visibility){
    visibility.querySelector(".check-icon").classList.toggle("hidden");
    visibility.classList.add("selected")
 
-   visibility.querySelector("h2").innerHTML === "Público" ? messageType = "message" : messageType = "private_message"
+   if( visibility.querySelector("h2").innerHTML === "Público"){
+        messageType = "message"
+        messageVisibility = "público"
+   }
+   else{
+    messageType = "private_message"
+    messageVisibility = "reservadamente"
+
+   }
+   changeTypeBox()
+
 }
 
 
