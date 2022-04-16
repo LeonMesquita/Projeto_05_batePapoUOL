@@ -195,7 +195,6 @@ function selectVisibility(visibility){
 
 
 
-//enterUser()
-//let idMessagesInterval = setInterval(getMessages, 3000);
-//let idConnectionInterval = setInterval(keepConnection, 5000);
-//let idUsersInterval = setInterval(getUsers, 1000*10);
+let idMessagesInterval = setInterval(getMessages, 3000);
+let idConnectionInterval = setInterval(keepConnection, 5000);
+let idUsersInterval = setInterval(getUsers, 1000*10);
